@@ -7,9 +7,11 @@
         "clean": "rimraf dist/",
         "copy": "ncp src/config/ dist/config/",
         "mkdir": "mkdirp dist/config/",
-        "build:app": "webpack -p",
-        "watch:app": "webpack -w -p",
+        "build:app": "webpack",
+        "build:app:prod": "webpack -p --env.production",
+        "watch:app": "webpack -w",
         "build": "run-s clean mkdir copy reload build:app",
+        "build:prod": "run-s clean mkdir copy reload build:app:prod",
         "watch": "run-s clean mkdir copy reload watch:app",
         "start": "docker-compose up -d --build",
         "stop": "docker-compose down",
@@ -21,7 +23,7 @@
         "react-dom": "^15.6.1",
         "react-router": "^4.1.1",
         "react-router-dom": "^4.1.1",
-        "semantic-ui-react": "^0.70.0"
+        "semantic-ui-react": "^0.71.0"
     },
     "devDependencies": {
         "babel-core": "^6.25.0",
@@ -43,8 +45,9 @@
         "mkdirp": "^0.5.1",
         "ncp": "^2.0.0",
         "npm-run-all": "^4.0.2",
+        "optimize-js-plugin": "^0.0.4",
         "prettier": "^1.5.2",
-        "uglifyjs-webpack-plugin": "^0.4.6",
-        "webpack": "^3.1.0"
+        "webpack": "^3.1.0",
+        "webpack-merge": "^4.1.0"
     }
 }
