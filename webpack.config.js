@@ -3,6 +3,7 @@
 const PATH = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const ROOT = PATH.resolve(__dirname, '.');
 
@@ -30,7 +31,8 @@ const config = {
             cache: true,
             inject: true,
             template: INDEX_HTML
-        })
+        }),
+        new UglifyJSPlugin({extractComments: true})
     ],
     cache: true,
     watchOptions: {

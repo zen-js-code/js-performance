@@ -2,11 +2,18 @@
     "name": "js-performance",
     "version": "0.0.1",
     "decription": "A satellite repository for JavaScript Performance talk @NI Code Naturally",
+    "license": "MIT",
     "scripts": {
-        "prebuild": "rimraf dist/",
-        "build": "webpack",
-        "prewatch": "rimraf dist/",
-        "watch": "webpack -w"
+        "clean": "rimraf dist/",
+        "copy": "ncp src/config/ dist/config/",
+        "mkdir": "mkdirp dist/config/",
+        "build:app": "webpack -p",
+        "watch:app": "webpack -w -p",
+        "build": "run-s clean mkdir copy reload build:app",
+        "watch": "run-s clean mkdir copy reload watch:app",
+        "start": "docker-compose up -d --build",
+        "stop": "docker-compose down",
+        "reload": "docker restart js-perf"
     },
     "dependencies": {
         "prop-types": "^15.5.10",
@@ -33,7 +40,11 @@
         "eslint-plugin-jsx-a11y": "5.1.1",
         "eslint-plugin-react": "^7.1.0",
         "html-webpack-plugin": "^2.29.0",
+        "mkdirp": "^0.5.1",
+        "ncp": "^2.0.0",
+        "npm-run-all": "^4.0.2",
         "prettier": "^1.5.2",
+        "uglifyjs-webpack-plugin": "^0.4.6",
         "webpack": "^3.1.0"
     }
 }
