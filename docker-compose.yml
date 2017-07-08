@@ -5,7 +5,7 @@ services:
     container_name: js-perf
     image: nginx
     volumes:
-      - ./dist:/data/www:ro
+      - ./dist/client:/data/www:ro
       - ./dist/config/ssl:/etc/ssl:ro
       - ./dist/config/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
