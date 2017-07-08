@@ -1,10 +1,12 @@
 'use strict';
 
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
 const gulp = require('gulp');
 const del = require('del');
 const webpack = require('webpack');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const nodemon = require('nodemon');
 
 const config = require('./webpack.config');
 const compiler = webpack(config);
@@ -44,7 +46,8 @@ const PATHS = {
     dest: {
         root: 'dist/',
         config: 'dist/config/',
-        server: 'dist/server/'
+        server: 'dist/server/',
+        serverIndex: 'dist/server/index.js'
     }
 };
 
@@ -96,10 +99,22 @@ function down() {
     return exec('docker-compose down');
 }
 
+function server() {
+    return nodemon({
+        verbose: true,
+        script: PATHS.dest.serverIndex,
+        execMap: {
+            js: 'node --inspect --harmony'
+        },
+        watch: [PATHS.dest.server],
+        ext: 'js json html'
+    });
+}
+
 // Main
 
 const build = gulp.parallel(buildConfig, buildServer, buildApp);
-const watch = gulp.parallel(watchConfig, watchServer, watchApp);
+const watch = gulp.parallel(watchConfig, watchServer, watchApp, server);
 
-gulp.task('build', gulp.series(down, clean, build, up));
+gulp.task('build', gulp.series(clean, build));
 gulp.task('watch', gulp.series(down, clean, build, up, watch));

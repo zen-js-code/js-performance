@@ -4,13 +4,19 @@
     "decription": "A satellite repository for JavaScript Performance talk @NI Code Naturally",
     "license": "MIT",
     "scripts": {
-        "build": "gulp build",
+        "load": "loadtest -n 100 -c 10 --rps 10 http://localhost:5151/api/users",
+        "profile": "webpack --profile --json > stats.json",
         "watch": "gulp watch",
+        "build": "gulp build",
+        "build:prod": "gulp build --production",
         "server": "node --inspect --harmony dist/server/",
-        "start": "run-s build server",
-        "dev": "run-p watch server"
+        "d:up": "docker-compose up -d --build",
+        "d:down": "docker-compose down",
+        "start": "run-s d:down build server d:up",
+        "start:prod": "run-s d:down build:prod server d:up"
     },
     "dependencies": {
+        "dummy-json": "^2.0.0",
         "express": "^4.15.3",
         "lodash": "^4.17.4",
         "morgan": "^1.8.2",
@@ -41,9 +47,14 @@
         "eslint-plugin-jsx-a11y": "5.1.1",
         "eslint-plugin-react": "^7.1.0",
         "gulp": "gulpjs/gulp#4.0",
+        "gulp-nodemon": "^2.2.1",
         "html-webpack-plugin": "^2.29.0",
+        "loadtest": "^2.3.0",
+        "nodemon": "^1.11.0",
         "npm-run-all": "^4.0.2",
         "optimize-js-plugin": "^0.0.4",
+        "uglify-es": "^3.0.23",
+        "uglifyjs-webpack-plugin": "1.0.0-beta.1",
         "webpack": "^3.1.0",
         "webpack-merge": "^4.1.0"
     }
