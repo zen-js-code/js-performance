@@ -1,5 +1,7 @@
 'use strict';
 
+require('v8-compile-cache');
+
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -36,7 +38,6 @@ function handleOutput(err, stats, done = () => {}) {
         done(err);
     }
 }
-
 
 const PATHS = {
     src: {

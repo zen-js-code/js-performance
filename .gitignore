@@ -44,3 +44,6 @@ jspm_packages
 npm-debug.log
 yarn.lock
 .yo-rc.json
+stats.json
+.archive
+dist

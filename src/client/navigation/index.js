@@ -1,7 +1,9 @@
 import React from 'react';
+// import {Link} from 'react-router-dom';
+// import {Container, Menu, Icon} from 'semantic-ui-react';
 
 export default function App() {
     return (
-        <h1>App</h1>
+        <div>AAAA</div>
     );
 }

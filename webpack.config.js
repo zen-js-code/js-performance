@@ -7,6 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeJsPlugin = require("optimize-js-plugin");
 
+const TARGET = process.env.npm_lifecycle_event;
+console.log(`Building for ${TARGET}`);
+const PROD = (['build:prod', 'profile', 'optimize'].indexOf(TARGET) >= 0);
+
 const ROOT = PATH.resolve(__dirname, '.');
 
 const NODE_MODULES = PATH.resolve(ROOT, 'node_modules/');
@@ -18,7 +22,7 @@ const INDEX_HTML = PATH.resolve(SRC, 'index.html');
 
 const DIST = PATH.resolve(ROOT, 'dist/client/js');
 
-const config = {
+const baseConfig = {
     entry: {
         app: INDEX
     },
@@ -33,14 +37,7 @@ const config = {
             cache: true,
             inject: true,
             template: INDEX_HTML
-        }),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         NODE_ENV: JSON.stringify('production')
-        //     }
-        // }),
-        // new UglifyJsPlugin({extractComments: true}),
-        // new OptimizeJsPlugin({sourceMap: false})
+        })
     ],
     cache: true,
     watchOptions: {
@@ -64,5 +61,20 @@ const config = {
         ]
     }
 };
+
+const prodConfig = {
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new UglifyJsPlugin({extractComments: true}),
+        new OptimizeJsPlugin({sourceMap: false}),
+        new webpack.optimize.ModuleConcatenationPlugin()
+    ]
+}
+
+const config = PROD ? merge({}, baseConfig, prodConfig) : baseConfig;
 
 module.exports = config;
