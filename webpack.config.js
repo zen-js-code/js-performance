@@ -5,11 +5,15 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeJsPlugin = require("optimize-js-plugin");
+const OptimizeJsPlugin = require('optimize-js-plugin');
+
+const Logger = console;
 
 const TARGET = process.env.npm_lifecycle_event;
-console.log(`Building for ${TARGET}`);
-const PROD = (['build:prod', 'profile', 'optimize'].indexOf(TARGET) >= 0);
+const PROD = (['build:prod', 'profile1', 'profile2', 'optimize'].indexOf(TARGET) >= 0);
+if (PROD) {
+    console.log('Running in production mode...');
+}
 
 const ROOT = PATH.resolve(__dirname, '.');
 
@@ -46,7 +50,7 @@ const baseConfig = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js|\.jsx$/,
                 include: SRC,
                 exclude: [NODE_MODULES],
                 use: [{
@@ -73,7 +77,7 @@ const prodConfig = {
         new OptimizeJsPlugin({sourceMap: false}),
         new webpack.optimize.ModuleConcatenationPlugin()
     ]
-}
+};
 
 const config = PROD ? merge({}, baseConfig, prodConfig) : baseConfig;
 

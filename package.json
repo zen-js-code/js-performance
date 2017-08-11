@@ -4,15 +4,17 @@
     "decription": "An examples repository for JavaScript Performance talk @Code Naturally",
     "license": "MIT",
     "scripts": {
+        "lint": "eslint src/ examples/",
         "load": "loadtest -n 100 -c 10 --rps 10 http://localhost:5151/api/users",
-        "profile": "webpack --profile --json > stats.json",
+        "profile1": "webpack --profile --json > stats.json",
+        "profile2": "webpack --display-optimization-bailout",
         "watch": "gulp watch",
         "build": "gulp build",
         "build:prod": "gulp build",
         "server": "node --inspect --harmony dist/server/",
         "d:up": "docker-compose up -d --build",
         "d:down": "docker-compose down",
-        "reload": "run-s d:down d:up",
+        "d:reload": "run-s d:down d:up",
         "start": "run-s d:down build d:up server",
         "start:prod": "run-s d:down build:prod d:up server"
     },
@@ -25,10 +27,10 @@
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
         "react-redux": "^5.0.5",
-        "react-router": "^4.1.1",
-        "react-router-dom": "^4.1.1",
-        "redux": "^3.7.1",
-        "semantic-ui-react": "^0.71.0"
+        "react-router": "^4.1.2",
+        "react-router-dom": "^4.1.2",
+        "redux": "^3.7.2",
+        "semantic-ui-react": "^0.71.1"
     },
     "devDependencies": {
         "babel-core": "^6.25.0",
@@ -54,10 +56,10 @@
         "nodemon": "^1.11.0",
         "npm-run-all": "^4.0.2",
         "optimize-js-plugin": "^0.0.4",
-        "uglify-es": "^3.0.24",
+        "uglify-es": "^3.0.25",
         "uglifyjs-webpack-plugin": "^1.0.0-beta.1",
         "v8-compile-cache": "^1.1.0",
-        "webpack": "^3.2.0",
+        "webpack": "^3.3.0",
         "webpack-merge": "^4.1.0"
     }
 }
