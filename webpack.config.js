@@ -43,6 +43,7 @@ const baseConfig = {
             template: INDEX_HTML
         })
     ],
+    devtool: 'cheap-module-eval-source-map',
     cache: true,
     watchOptions: {
         ignored: NODE_MODULES
@@ -58,8 +59,6 @@ const baseConfig = {
                     query: {
                         cacheDirectory: CACHE_DIR_PATH
                     }
-                }, {
-                    loader: 'eslint-loader'
                 }]
             }
         ]
@@ -67,6 +66,7 @@ const baseConfig = {
 };
 
 const prodConfig = {
+    devtools: false,
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {

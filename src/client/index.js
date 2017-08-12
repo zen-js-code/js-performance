@@ -5,12 +5,12 @@ import {Provider} from 'react-redux';
 
 import store from './state';
 
-import App from './navigation';
+import AppContainer from './navigation';
 
 render(
     <BrowserRouter>
         <Provider store={store}>
-            <App />
+            <AppContainer />
         </Provider>
     </BrowserRouter>,
     document.getElementById('root')

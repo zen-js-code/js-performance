@@ -1,9 +1,21 @@
 import React from 'react';
-// import {Link} from 'react-router-dom';
-// import {Container, Menu, Icon} from 'semantic-ui-react';
+import {Switch, Route} from 'react-router-dom';
 
-export default function App() {
+import App from '../modules/app/';
+import Dashboard from '../modules/dashboard/';
+import Edit from '../modules/edit/';
+import Help from '../modules/help/';
+import Settings from '../modules/settings/';
+
+export default function AppContainer() {
     return (
-        <div>AAAA</div>
+        <App>
+            <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/edit" component={Edit} />
+                <Route exact path="/help" component={Help} />
+                <Route exact path="/settings" component={Settings} />
+            </Switch>
+        </App>
     );
 }
