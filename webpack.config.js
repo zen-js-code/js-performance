@@ -7,13 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 
-const Logger = console;
-
 const TARGET = process.env.npm_lifecycle_event;
 const PROD = (['build:prod', 'profile1', 'profile2', 'optimize'].indexOf(TARGET) >= 0);
-if (PROD) {
-    console.log('Running in production mode...');
-}
+
+console.log(`Running in ${PROD ? 'production' : 'development'} mode...`);
 
 const ROOT = PATH.resolve(__dirname, '.');
 
@@ -35,6 +32,13 @@ const baseConfig = {
         path: DIST
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: 'vendor.js',
+            minChunks: (module) => {
+                return module.context && module.context.indexOf('node_modules') !== -1;
+            }
+        }),
         new HtmlWebpackPlugin({
             hash: false,
             filename: '../index.html',
@@ -66,7 +70,7 @@ const baseConfig = {
 };
 
 const prodConfig = {
-    devtools: false,
+    devtool: false,
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -74,7 +78,7 @@ const prodConfig = {
             }
         }),
         new UglifyJsPlugin({extractComments: true}),
-        new OptimizeJsPlugin({sourceMap: false}),
+        // new OptimizeJsPlugin({sourceMap: false}),
         new webpack.optimize.ModuleConcatenationPlugin()
     ]
 };

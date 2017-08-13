@@ -1,43 +1,77 @@
 'use strict';
 
+const path = require('path');
+
 const express = require('express');
 const morgan = require('morgan');
-const app = express();
-
 const dummyjson = require('dummy-json');
 
-const PORT = 5151;
-const leak = [];
+const PORT = 3030;
 
-class UsersWithLeak {
-    constructor() {
-        this.users = JSON.parse(dummyjson.parse(`{
-            {{#repeat 10}}
-                "id": {{int 1000 9999}},
-                "name": "{{title}} {{firstName}} {{lastName}}",
-                "work": "{{company}}",
-                "email": "{{email}}",
-                "dateOfBirth": "{{date 1950 1990 'mediumDate'}}"
-            {{/repeat}}
-        }`));
+const app = express();
+const router = new express.Router();
+
+function insertionSort(array) {
+    for (let i = 0; i < array.length; i++) {
+        const temp = array[i];
+        let j = i - 1;
+
+        while (j >= 0 && array[j] > temp) {
+            array[j + 1] = array[j];
+            j--;
+        }
+
+        array[j + 1] = temp;
     }
+
+    return array;
 }
 
-function createUsers() {
-    const usersWithLeak = new UsersWithLeak();
-    leak.push(usersWithLeak);
-    return usersWithLeak.users;
+
+function selectionSort(array) {
+    const ret = Array.from(array);
+    let minIndex;
+
+    for (let i = 0; i < ret.length; ++i) {
+        minIndex= i;
+        for (let j = i; j < ret.length; ++j) {
+            if (ret[j] < ret[minIndex]) {
+                minIndex= j;
+            }
+        }
+        [ret[i], ret[minIndex]] = [ret[minIndex], ret[i]];
+    }
+    return ret;
 }
 
-app.use(morgan('dev'));
+function nativeSort(array) {
+    return array.sort();
+}
 
-app.get('/api/healthcheck', (req, res) => {
-    res.status(200).send({status: 'OK'});
+const seed = '[{{#repeat 10000}}"{{firstName}}{{lastName}}"{{/repeat}}]';
+
+router.get('/sort/insertion', (req, res) => {
+    const array = JSON.parse(dummyjson.parse(seed));
+    const sortedArray = insertionSort(array);
+    res.status(200).send(sortedArray);
 });
 
-app.get('/api/users', (req, res) => {
-    res.status(200).send(createUsers());
-})
+router.get('/sort/selection', (req, res) => {
+    const array = JSON.parse(dummyjson.parse(seed));
+    const sortedArray = selectionSort(array);
+    res.status(200).send(sortedArray);
+});
+
+router.get('/sort/native', (req, res) => {
+    const array = JSON.parse(dummyjson.parse(seed));
+    const sortedArray = nativeSort(array);
+    res.status(200).send(sortedArray);
+});
+
+app.use(morgan('dev'));
+app.use('/api', router);
+
+app.use(express.static(path.resolve(__dirname, '../../dist/client/')));
 
 app.listen(PORT, (err) => {
     if (!err) {

@@ -60,18 +60,6 @@ function clean() {
 
 // Copy
 
-function buildConfig() {
-    return gulp.src(PATHS.src.config).pipe(gulp.dest(PATHS.dest.config));
-}
-
-function refreshConfig() {
-    return exec('docker restart js-perf');
-}
-
-function watchConfig() {
-    return gulp.watch(PATHS.src.config, gulp.series(buildConfig, refreshConfig));
-}
-
 function buildServer() {
     return gulp.src(PATHS.src.server).pipe(gulp.dest(PATHS.dest.server));
 }
@@ -92,14 +80,6 @@ function watchApp() {
 
 // Server
 
-function up() {
-    return exec('docker-compose up -d --build');
-}
-
-function down() {
-    return exec('docker-compose down');
-}
-
 function server() {
     return nodemon({
         verbose: true,
@@ -114,8 +94,8 @@ function server() {
 
 // Main
 
-const build = gulp.parallel(buildConfig, buildServer, buildApp);
-const watch = gulp.parallel(watchConfig, watchServer, watchApp, server);
+const build = gulp.parallel(buildServer, buildApp);
+const watch = gulp.parallel(watchServer, watchApp, server);
 
 gulp.task('build', gulp.series(clean, build));
-gulp.task('watch', gulp.series(down, clean, build, up, watch));
+gulp.task('watch', gulp.series(clean, build, watch));
