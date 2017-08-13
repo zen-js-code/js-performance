@@ -68,6 +68,30 @@ router.get('/sort/native', (req, res) => {
     res.status(200).send(sortedArray);
 });
 
+const arrayseed = '[{{#repeat 10000}}{{int 0 1000}},"{{int 0 1000}}"{{/repeat}}]';
+
+function compare(a, b) {
+    return a > b;
+}
+
+function max(array) {
+    let max = array[0];
+
+    for (let i = 1; i < array.length; i++) {
+        if (compare(array[i], max)) {
+            max = array[i];
+        }
+    }
+
+    return max;
+}
+
+router.get('/poly', (req, res) => {
+    const array = JSON.parse(dummyjson.parse(arrayseed));
+    const maxValue = max(array);
+    res.status(200).send({max: maxValue});
+});
+
 app.use(morgan('dev'));
 app.use('/api', router);
 
