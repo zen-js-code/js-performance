@@ -4,6 +4,7 @@
     "decription": "An examples repository for JavaScript Performance talk @Code Naturally",
     "license": "MIT",
     "scripts": {
+        "prof": "node --trace-events-enabled --trace-event-categories node,v8,v8.execute,toplevel,netlog,blink,cc,v8.runtime,v8.gc,disabled-by-default-v8.runtime_stats  dist/server/",
         "watch": "gulp watch",
         "build": "gulp build",
         "build:prod": "gulp build",

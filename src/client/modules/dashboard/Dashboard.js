@@ -7,7 +7,7 @@ import {loadRecipes} from './Dashboard.actions';
 
 export class Dashboard extends Component {
     componentWillMount() {
-        // this.props.dispatch(loadRecipes('cake'));
+        this.props.dispatch(loadRecipes('cake'));
     }
 
     createRecipesItems(recipes) {
@@ -36,11 +36,11 @@ export class Dashboard extends Component {
                         <Statistic.Value>427</Statistic.Value>
                     </Statistic>
                 </Segment>
-                <Segment as={Container}>
+                {/* <Segment as={Container}>
                     <Card.Group itemsPerRow={3}>
                         {this.createRecipesItems(recipes)}
                     </Card.Group>
-                </Segment>
+                </Segment> */}
             </div>
         );
     }

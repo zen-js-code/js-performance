@@ -4,7 +4,7 @@ const {alg} = require('yargs').argv;
 const {loadTest} = require('loadtest');
 
 const OPTIONS = {
-    url: `http://localhost:3030/api/simple/sort/${alg}`,
+    url: 'http://localhost:3030/api/memory/inflate',
     method: 'GET',
     contentType: 'application/json',
     agentKeepAlive: true,
