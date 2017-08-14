@@ -114,4 +114,18 @@ router.get('/merge', (req, res) => {
     res.status(200).send({merged});
 });
 
+const crypto = require('crypto');
+
+function createHash(password) {
+    const salt = crypto.randomBytes(512).toString('hex');
+    const hash = crypto.pbkdf2Sync(password, salt, 1e5, 512, 'sha512');
+    return hash;
+}
+
+router.get('/crypto', (req, res) => {
+    const password = dummyjson.parse('{{guid}}');
+    const hash = createHash(password);
+    res.status(200).send({hash});
+});
+
 module.exports = router;

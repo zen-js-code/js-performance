@@ -7,7 +7,7 @@ import {loadRecipes} from './Dashboard.actions';
 
 export class Dashboard extends Component {
     componentWillMount() {
-        this.props.dispatch(loadRecipes('cake'));
+        // this.props.dispatch(loadRecipes('cake'));
     }
 
     createRecipesItems(recipes) {

@@ -78,7 +78,7 @@ const prodConfig = {
             }
         }),
         new UglifyJsPlugin({extractComments: true}),
-        // new OptimizeJsPlugin({sourceMap: false}),
+        new OptimizeJsPlugin({sourceMap: false}),
         new webpack.optimize.ModuleConcatenationPlugin()
     ]
 };
